@@ -1,0 +1,5 @@
+program:
+  Student:
+    name: Ilya
+    last_name: Emelyanov
+    group: IKBO-20-21

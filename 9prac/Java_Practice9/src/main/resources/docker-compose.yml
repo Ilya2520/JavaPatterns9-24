@@ -1,0 +1,41 @@
+version: '2'
+
+services:
+
+  postgres:
+    image: postgres
+    restart: always
+    container_name: db_notebook
+    environment:
+      POSTGRES_DB: note_book
+      POSTGRES_PASSWORD: telino2003
+
+  backend:
+    build: ./Backend
+    restart: always
+    container_name: back-end
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/note_book
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=1234
+    ports:
+      - 8088:8088
+
+  frontend:
+    build: ./Frontend
+    restart: always
+    container_name: front-end
+    depends_on:
+      - backend
+    ports:
+      - 3000:3000
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres
